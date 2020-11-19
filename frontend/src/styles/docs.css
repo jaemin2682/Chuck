@@ -1,0 +1,156 @@
+#canvas{
+	width: 1420px;
+	height: 812px;
+	margin: 60px auto;
+	background-image: url(../assets/layout1.png);
+	background-size: cover;
+}
+
+#book-zoom{
+	-webkit-transition: -webkit-transform 1s;
+	-moz-transition: -moz-transform 1s;
+	-ms-transition: -ms-transform 1s;
+	-o-transition: -o-transform 1s;
+	transition: transform 1s;
+	display: inline-block;
+}
+
+.animated{
+	-webkit-transition:margin-left 0.2s ease-in-out;
+	-moz-transition:margin-left 0.2s ease-in-out;
+	-o-transition:margin-left 0.2s ease-in-out;
+	-ms-transition:margin-left 0.2s ease-in-out;
+	transition:margin-left 0.2s ease-in-out;
+}
+
+.sample-docs{
+	width:1252px;
+	height:767px;
+	left:12px;
+	top: 29px;
+}
+
+.sample-docs .page{
+	width:636px;
+	height:766px;
+
+	-webkit-box-shadow:0 0 20px rgba(0,0,0,0.2);
+	-moz-box-shadow:0 0 20px rgba(0,0,0,0.2);
+	-ms-box-shadow:0 0 20px rgba(0,0,0,0.2);
+	-o-box-shadow:0 0 20px rgba(0,0,0,0.2);
+	box-shadow:0 0 20px rgba(0,0,0,0.2);
+	
+    overflow: auto;
+}
+
+.sample-docs .even{
+	background-image:url(../assets/leftpage.png);
+	background-size: cover;
+}
+
+.sample-docs .odd{
+	background-image:url(../assets/rightpage.png);
+	background-size: cover;
+}
+
+.sample-docs .even .gradient{
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background-image:url(../assets/leftpage.png);
+	background-position:right top;
+	background-repeat: repeat-y;
+}
+
+.sample-docs .odd .gradient{
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background-image:url(../assets/rightpage.png);
+	background-position:left top;
+	background-repeat: repeat-y;
+}
+
+
+.sample-docs .tabs{
+	width:1500px;
+	height:22px;
+	left: -163px;
+	position:relative;
+	z-index:1;
+}
+
+.sample-docs .tabs > div{
+	width:153px;
+	height:46px;
+	float:left;
+}
+
+.sample-docs .tabs .left{
+	text-align:left;
+	margin-left:10px;
+	margin-right: 1099px;
+}
+
+
+.sample-docs .tabs .right{
+	text-align:right;
+	margin-right:10px;
+}
+
+.sample-docs .tabs button{
+	width: 153px;
+	height: 46px;
+	background-size: cover;
+	position: absolute;
+	margin: auto;
+	color: white;
+	text-shadow: 0 -1px 0 #222;
+	line-height: 50px;
+	text-align: center;
+	font-family: monospace;
+	content: "";
+	z-index: 5;
+	border: 0;
+	outline: 0;
+}
+
+/* right tabs */
+.sample-docs .tabs .right #timeline{
+	background: url("../assets/img_tab/timeline_right_nonselected.png");
+	top: 60px;
+}
+.sample-docs .tabs .right #calender{
+	background: url("../assets/img_tab/calendar_right_nonselected.png");
+	top: 120px;
+}
+.sample-docs .tabs .right #album{
+	background: url("../assets/img_tab/gallery_right_nonselected.png");
+	top: 180px;
+}
+.sample-docs .tabs .right #chuck{
+	background: url("../assets/img_tab/studio_right_nonselected.png");
+	top: 240px;
+}
+.sample-docs .tabs .right #info{
+	background: url("../assets/img_tab/groupset_right_nonselected.png");
+	top: 300px;
+}
+
+.sample-docs .tabs .on,
+.sample-docs .tabs .on:hover{
+	/* -webkit-border-image: url(../assets/tab-on.png) 5 20 5 20 repeat stretch; */
+	cursor:default;
+}
+
+.sample-docs .tabs a:hover{
+	color:black;
+	text-decoration: none;
+	cursor:pointer;
+	/* -webkit-border-image: url(../assets/tab-hover.png) 5 20 5 20 repeat stretch; */
+
+}

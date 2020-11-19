@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssafy.chuck.diary.dao.DiaryDao">
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ssafy.chuck.diary.dto.DiaryDto">
+        insert into DIARIES (TITLE, IMAGE, CONTENT, WRITER, GROUP_ID, DATE) VALUES
+                            (#{title}, "", #{content}, #{writer}, #{groupId}, #{date})
+    </insert>
+
+    <select id="read" parameterType="int" resultType="com.ssafy.chuck.diary.dto.DiaryDto">
+        select D.ID, D.TITLE, D.CONTENT, U.NAME as "writer",
+        D.WRITER as "writerId", D.GROUP_ID, D.DATE,
+        GROUP_CONCAT(CONCAT('http://k3a206.p.ssafy.io/images/', SUBSTRING_INDEX(P.PATH, 'python/', -1 )) SEPARATOR ';') as "IMAGE"
+        from DIARIES D, PICTURES P, USERS U
+        where P.DIARY_ID = #{id}
+        AND P.DIARY_ID = D.ID
+        AND U.ID = D.WRITER
+    </select>
+
+    <update id="update" parameterType="com.ssafy.chuck.diary.dto.DiaryDto">
+        update DIARIES SET CONTENT = #{content}, TITLE = #{title} where ID = #{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from DIARIES where ID = #{id}
+    </delete>
+
+    <select id="readAll" parameterType="int" resultType="com.ssafy.chuck.diary.dto.DiaryDto">
+        select D.ID, D.TITLE, D.CONTENT, U.NAME as "writer",
+        D.WRITER as "writerId", D.GROUP_ID, D.DATE,
+        GROUP_CONCAT(CONCAT('http://k3a206.p.ssafy.io/images/', SUBSTRING_INDEX(P.PATH, 'python/', -1 )) SEPARATOR ';') as "IMAGE"
+        from DIARIES D, PICTURES P, USERS U
+        where D.GROUP_ID = #{groupId}
+        AND P.DIARY_ID = D.ID
+        AND U.ID = D.WRITER
+        GROUP BY D.ID
+        ORDER BY D.DATE DESC, D.ID DESC
+    </select>
+
+    <select id="search" parameterType="map" resultType="com.ssafy.chuck.diary.dto.DiaryDto">
+        select D.ID, D.TITLE, D.CONTENT, U.NAME as "writer",
+        D.WRITER as "writerId", D.GROUP_ID, D.DATE,
+        GROUP_CONCAT(CONCAT('http://k3a206.p.ssafy.io/images/', SUBSTRING_INDEX(P.PATH, 'python/', -1 )) SEPARATOR ';') as "IMAGE"
+        from DIARIES D, PICTURES P, USERS U
+        where D.GROUP_ID = #{groupId}
+        AND P.DIARY_ID = D.ID
+        AND U.ID = D.WRITER
+        AND D.CONTENT LIKE CONCAT('%', #{word}, '%')
+    </select>
+</mapper>

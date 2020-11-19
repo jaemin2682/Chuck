@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssafy.chuck.group.dao.GroupDao">
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ssafy.chuck.group.dto.GroupDto">
+        insert into `GROUPS`(USER_ID, NAME, INTRO, PUBLISHED_DATE) values (#{userId}, #{name}, #{intro}, now())
+    </insert>
+
+    <update id="updateToken" parameterType="map">
+        update `GROUPS` SET TOKEN = #{token} where id = #{id}
+    </update>
+
+    <update id="update" parameterType="com.ssafy.chuck.group.dto.GroupDto">
+        update `GROUPS`
+        SET NAME = #{name},
+            INTRO = #{intro}
+        WHERE ID = #{id}
+    </update>
+
+    <select id="read" parameterType="int" resultType="com.ssafy.chuck.group.dto.GroupDto">
+        select G.*, U.NAME "ownerName"
+        from USERS U, `GROUPS` G
+        where U.ID = G.USER_ID
+        AND G.ID = #{id}
+    </select>
+
+    <delete id="delete" parameterType="int">
+        delete from `GROUPS` where ID = #{id}
+    </delete>
+
+    <insert id="createMember" parameterType="com.ssafy.chuck.group.dto.MemberDto">
+        <selectKey resultType="int" keyProperty="groupId" order="BEFORE">
+            <choose>
+                <when test="groupId == 0">
+                    select ID from `GROUPS` where TOKEN = #{groupToken}
+                </when>
+                <otherwise>
+                    select ID from `GROUPS` where ID = #{groupId}
+                </otherwise>
+            </choose>
+        </selectKey>
+        insert into GROUP_MEMBERS (USER_ID, GROUP_ID, IS_OWNER)
+        values (#{userId}, #{groupId}, #{isOwner})
+
+    </insert>
+
+    <select id="readAllMember" parameterType="int" resultType="com.ssafy.chuck.group.dto.MemberDto">
+        select * from GROUP_MEMBERS inner join USERS U on GROUP_MEMBERS.USER_ID = U.ID WHERE GROUP_ID = #{id}
+    </select>
+
+    <select id="readAllGroup" parameterType="long" resultType="com.ssafy.chuck.group.dto.GroupDto">
+        select G.*, U.NAME "ownerName"
+        from USERS U, `GROUPS` G
+        where U.ID = G.USER_ID
+        and exists(select GROUP_ID
+                   from GROUP_MEMBERS GM
+                   where GM.GROUP_ID = G.ID
+                   AND USER_ID = #{id})
+        ORDER BY U.LAST_DATE ASC
+    </select>
+
+    <select id="readOwner" parameterType="int" resultType="long">
+        select USER_ID
+        from `GROUPS` where ID = #{id}
+    </select>
+
+    <update id="change" parameterType="map">
+        update `GROUPS`
+        SET USER_ID = #{userId}
+        where ID = #{id}
+    </update>
+
+    <update id="changeMemberFalse" parameterType="map">
+        update GROUP_MEMBERS
+        SET IS_OWNER = FALSE
+        where USER_ID = #{userId}
+    </update>
+
+    <update id="changeMemberTrue" parameterType="map">
+        update GROUP_MEMBERS
+        SET IS_OWNER = TRUE
+        where USER_ID = #{userId}
+    </update>
+
+    <select id="isMember" parameterType="map" resultType="boolean">
+        select exists(select * from GROUP_MEMBERS where GROUP_ID = #{id} and USER_ID = #{userId})
+    </select>
+
+    <delete id="deleteMember" parameterType="map">
+         delete from GROUP_MEMBERS where GROUP_ID = #{id} and USER_ID = #{userId}
+    </delete>
+</mapper>

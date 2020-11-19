@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssafy.chuck.reply.dao.ReplyDao">
+
+	<!-- 댓글 입력 -->
+	<insert id="insertComment" useGeneratedKeys="true" keyProperty="id">
+		insert REPLIES(WRITER, COMMENT, DIARY_ID, DATE) values(#{writerId}, #{comment}, #{diaryId}, #{date})
+		<selectKey resultType="string" keyProperty="writer" order="BEFORE">
+			select NAME as "WRITER"
+			from USERS
+			where ID = #{writerId}
+		</selectKey>
+	</insert>
+	
+	<!-- 특정 아이디의 댓글 리스트 반환 -->
+	<select id="selectCommentByDiaryId" resultType="com.ssafy.chuck.reply.dto.ReplyDto">
+		select R.ID, U.NAME as "WRITER", R.WRITER as "WRITER_ID", COMMENT, DIARY_ID, DATE
+		from REPLIES R, USERS U
+		where R.DIARY_ID = #{diaryId} and R.WRITER = U.ID
+	</select>
+	
+	<!-- 특정 작성자의 댓글 리스트 반환 -->
+	<select id="selectCommentByWriter" resultType="com.ssafy.chuck.reply.dto.ReplyDto">
+		select ID, WRITER, COMMENT, DIARY_ID, DATE from REPLIES where WRITER = #{writerId}
+	</select>
+
+	<select id="read" parameterType="int" resultType="com.ssafy.chuck.reply.dto.ReplyDto">
+		select R.ID, U.NAME as "WRITER", R.WRITER as "WRITER_ID", COMMENT, DIARY_ID, DATE
+		from REPLIES R, USERS U
+		where R.ID = #{id} and R.WRITER = U.ID
+	</select>
+
+	<delete id="delete" parameterType="int">
+		 delete from REPLIES where ID = #{id}
+	</delete>
+</mapper>

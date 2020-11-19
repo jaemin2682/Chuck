@@ -1,0 +1,64 @@
+*,
+*:after,
+*:before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+#app {
+    /* background:  linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url('./assets/bg3.jpg'); */
+    font-family: MaplestoryOTFLight, Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #8D6262;
+    overflow: auto;
+}
+@font-face {
+    font-family: 'MaplestoryOTFLight';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/MaplestoryOTFLight.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+.dash {
+    margin: 5px 25px 5px 25px;
+    padding: 5px;
+    border: 2px dashed #DCDFE6;
+    border-radius: 3px;
+    overflow: auto;
+}
+.solid {
+    margin: 5px 25px 5px 25px;
+    padding: 5px;
+    border: 2px solid #DCDFE6;
+    border-radius: 3px;
+    overflow: auto;
+}
+.pointer {
+    cursor: pointer;
+}
+.tabtitle {
+    height: 80px;
+}
+.subtitle {
+    height: 70px;
+}
+.logo {
+    height: 60px;
+}
+.underline {
+    margin-top: -15px;
+    width: 130px;
+    height: 5px;
+    background: #8D6262;
+}
+hr {
+    margin: 0px auto;
+}
+.iconColor {
+    color: #8D6262;
+    border-color: #8D6262;
+}
